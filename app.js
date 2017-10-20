@@ -35,6 +35,12 @@ app.use(cors());
 // Body Parser Midderware
 app.use(bodyParser.json());
 
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./config/passport')(passport);
+
 // use the path which is users, will direct to users.js
 app.use('/users', users);
 
