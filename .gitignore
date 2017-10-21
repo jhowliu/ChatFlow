@@ -1,4 +1,4 @@
 package-lock.json
-config/
+config/database.js
 node_modules/
 *.log
