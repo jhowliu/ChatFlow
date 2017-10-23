@@ -20,22 +20,20 @@ const UserSchema = mongoose.Schema({
     }
 });
 
-
 // Variable using from outside
 const User = module.exports = mongoose.model('User', UserSchema);
 
 
 module.exports.getUserById = function(id, callback) {
-    User.findById(id, callback) 
+    User.findById(id, callback)
 }
 
 module.exports.getUserByUsername = function(username, callback) {
     const query = { username: username }
-    User.findOne(query, callback) 
+    User.findOne(query, callback)
 }
 
-
-// Add User 
+// Add User
 // bcrypt: hash the user password
 module.exports.addUser = function(newUser, callback) {
     bcrypt.genSalt(10, (err, salt) => {
