@@ -6,6 +6,8 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 
 const users = require('./routes/users');
+const intents = require('./routes/intents');
+
 const config = require('./config/database');
 
 // Connect To Tatabase
@@ -24,7 +26,7 @@ mongoose.connection.on('error', (err) => {
 const app = express();
 
 // Set Static Folder
-app.set(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 // Setting Port Number
 app.set('port', 4567);
@@ -43,9 +45,15 @@ require('./config/passport')(passport);
 
 // use the path which is users, will direct to users.js
 app.use('/users', users);
+app.use('/intents', intents);
 
 app.get('/', (req, res) => {
     res.send('Invaild Endpoint');
+});
+
+app.get('*', (req, res) => {
+    console.log(path.resolve('public/index.html'));
+    res.sendFile(path.resolve('public/index.html'));
 });
 
 
