@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-md-2 col-sm-2 col-xs-2 sidebar">
+    <ul class="nav nav-sidebar">
+      <li class="active"><a href="#">Intents<span class="sr-only">(current)</span></a></li>
+      <li><a href="#">iNTENT_NAME</a></li>
+    </ul>
+    <ul class="nav nav-sidebar">
+      <li><a href="">Nav item again</a></li>
+      <li><a href="">One more nav</a></li>
+      <li><a href="">Another nav item</a></li>
+    </ul>
+  </div>
+  <div class="col-md-9 col-sm-9 col-xs-9 main" *ngIf="intent">
+    <div class="row">
+      <div class="col-md-2 col-sm-2 col-xs-2">
+        <h1 class="text-center intent-name">{{intent.name}}</h1>
+      </div>
+      <div class="col-md-7 col-sm-7 col-xs-7">
+      </div>
+      <div class="col-md-3 col-sm-3 col-xs-3">
+        <button class="save btn btn-default" (click)="onSaveClicked()">SAVE</button>
+      </div>
+    </div>
+    <hr>
+    <form>
+      <div class="form-group">
+        <input type="text" class="input-normal form-control" name="sentence" [(ngModel)]="sentence" placeholder="例句" (keyup.enter)="addSentence()">
+      </div>
+    </form>
+    <br>
+    <div class="list-of-examples">
+      <div *ngFor="let sentence of sentences; let idx = index" class="input-group">
+        <input type="text" class="input-normal form-control" [id]="idx" [(ngModel)]="sentences[idx].data">
+        <span class="input-group-addon span-clickable" [id]="idx" (click)="deleteSentence($event)">X</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1 col-sm-1 col-xs-1"></div>
+</div>

@@ -1,0 +1,5 @@
+.divider{
+    position:absolute;
+    height: 100%;
+    border-left:10px solid grey;
+}
