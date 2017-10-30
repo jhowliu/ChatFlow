@@ -5,7 +5,13 @@
 .btn-default {
   border-radius: 0px;
   font-size: 12px;
-  width: 150px;
+  width: 100px;
+  background-color: #00b9f9;
+  box-shadow: 4px 4px 3px #9fa1a3;
+}
+
+.btn-default:disabled {
+  background-color: grey;
 }
 
 .input-normal {
@@ -17,4 +23,35 @@
   margin-top: 20px;
   margin-bottom: 10px;
   float: right;
+}
+
+.intent-name {
+  border: none;
+}
+
+.intent-name:hover {
+  border-bottom: 2px solid lightgrey;
+}
+
+.intent-name:focus {
+  outline: none;
+  border-bottom: 2px solid lightblue;
+}
+
+.nav {
+  font-size: 15px;
+}
+
+.add-intent {
+  float: right;
+}
+
+.add-intent a {
+  text-decoration: none;
+  color: #9fa1a3;
+}
+
+.add-intent a:hover {
+  color: black;
+  cursor: pointer;
 }

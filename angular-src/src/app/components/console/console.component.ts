@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IntentService } from '../../services/intent.service';
+import { FormBuilder } from '@angular/forms';
+
+import { PlatformLocation } from '@angular/common';
 
 interface Intent {
   id: String,
@@ -17,20 +20,25 @@ interface Sentence {
 })
 
 export class ConsoleComponent implements OnInit {
-  private sentences: Sentence[];
   private sentence: String;
+  private sentences: Sentence[];
   private intent: Intent;
+  private intents: Intent[];
 
-  private changed: Boolean;
+  private saved: Boolean;
 
   constructor(
     private intentService: IntentService,
+    private location: PlatformLocation,
   ) { }
 
   ngOnInit() {
+    this.saved = true;
     this.intentService.getIntents().subscribe((res) => {
       if (res.success && res.data.length) {
         const data = res.data[0];
+        this.intents = [data];
+        console.log(this.intents);
         this.intent = {
           id: data._id,
           name: data.name,
@@ -41,6 +49,14 @@ export class ConsoleComponent implements OnInit {
         this.intent = undefined;
       }
     })
+
+    this.location.onPopState(() => {
+      console.log("HII");
+    })
+  }
+
+  onChange() {
+    this.saved = false;
   }
 
   addSentence() {
@@ -60,6 +76,7 @@ export class ConsoleComponent implements OnInit {
   onSaveClicked() {
     const intent = this.buildIntent();
     this.intentService.updateIntent(intent).subscribe((res) => {
+      this.saved = true;
       console.log(res);
     });
   }
