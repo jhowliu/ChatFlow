@@ -1,49 +1,42 @@
-.span-clickable {
+.clickable {
   cursor:  pointer;
-}
-
-.btn-default {
-  border-radius: 0px;
-  font-size: 12px;
-  width: 100px;
-  background-color: #00b9f9;
-  box-shadow: 4px 4px 3px #9fa1a3;
-}
-
-.btn-default:disabled {
-  background-color: grey;
-}
-
-.input-normal {
-  border-radius: 0px;
-}
-
-.save {
-  line-height: 1.1;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  float: right;
-}
-
-.intent-name {
-  border: none;
-}
-
-.intent-name:hover {
-  border-bottom: 2px solid lightgrey;
-}
-
-.intent-name:focus {
-  outline: none;
-  border-bottom: 2px solid lightblue;
 }
 
 .nav {
   font-size: 15px;
 }
 
+.item {
+  font-size: 15px;
+}
+
+.intents-list {
+  min-height: 15px;
+  padding: 10px 0px 10px 20px;
+}
+
+.intents-list:hover {
+  background-color: lightgrey;
+}
+
+.del-intent {
+  font-size: 15px;
+  margin-left: 10px;
+  line-height: 1.1;
+  top: 2px; /* fix icon bugs*/
+  z-index: 1000px;
+  color: #9fa1a3;
+}
+
+.del-intent:hover {
+  color: black;
+}
+
 .add-intent {
-  float: right;
+  float: left;
+  font-size: 15px;
+  margin: 10px 0px 10px 0px;
+  line-height: 1.1;
 }
 
 .add-intent a {

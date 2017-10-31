@@ -17,15 +17,28 @@ export class IntentService {
     const headers = this.buildHeaders();
 
     return this.http.post(apis.intents.uri, {
-        user: user.id,
+        userid: user.id,
         name: intent.name,
-        sentences: []
-      })
+        sentences: intent.sentences,
+      }, { headers: headers })
       .map(res => res.json());
   }
 
-  deleteIntent(intetnId, intent) {
+  deleteIntent(id) {
+    let headers = this.buildHeaders();
 
+    return this.http.delete(apis.intents.uri, {
+      body: { id: id },
+      headers: headers,
+    })
+    .map(res => res.json());
+  }
+
+  getIntentById(id) {
+    const headers = this.buildHeaders();
+    const uri = apis.intents.uri+'/'+id;
+    return this.http.get(uri, { headers: headers})
+      .map(res => res.json());
   }
 
   getIntents() {

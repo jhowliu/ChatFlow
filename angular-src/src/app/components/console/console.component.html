@@ -1,40 +1,28 @@
-<div class="row">
-  <div class="col-md-2 col-sm-2 col-xs-2 sidebar">
+<div class="col-md-2 col-sm-4 col-xs-4">
+  <div>
+    <h1>&nbsp;</h1>
+    <br>
+  </div>
+  <div class="row">
     <ul class="nav nav-sidebar">
       <li class="active">
-        <span><h3>Intents<span class="add-intent"><a>＋</a></span></h3></span>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8 col-sm-8 col-xs-8">
+              <h5><b>Intents</b></h5>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4">
+              <span class="add-intent clickable" (click)="onAddIntent()"><a>＋</a></span>
+            </div>
+          </div>
+        </div>
       </li>
-      <li class="intents-list"*ngFor="let intent of intents">
-        <a href="#">INTENT_NAME</a>
+      <li class="intents-list clickable" (click)="onIntentClick(intent._id)" *ngFor="let intent of intents">
+        <span (click)="onIntentClick(intent._id)">{{intent.name}}<span class="del-intent clickable glyphicon glyphicon-trash" (click)="onDelIntent(intent._id)"></span></span>
       </li>
     </ul>
   </div>
-  <div class="col-md-9 col-sm-9 col-xs-9 main" *ngIf="intent">
-    <div class="row">
-      <div class="col-md-2 col-sm-2 col-xs-2">
-        <h1>
-          <input type="text" class=" intent-name" (ngModelChange)="onChange()" [(ngModel)]="intent.name">
-        </h1>
-      </div>
-      <div class="col-md-7 col-sm-7 col-xs-7">
-      </div>
-      <div class="col-md-3 col-sm-3 col-xs-3">
-        <button class="save btn btn-default" [disabled]="saved" (click)="onSaveClicked()">SAVE</button>
-      </div>
-    </div>
-    <hr>
-    <form>
-      <div class="form-group">
-        <input type="text" class="input-normal form-control" name="sentence" [(ngModel)]="sentence" (ngModelChange)="onChange()" placeholder="例句" (keyup.enter)="addSentence()">
-      </div>
-    </form>
-    <br>
-    <div class="list-of-examples">
-      <div *ngFor="let sentence of sentences; let idx = index" class="input-group">
-        <input type="text" class="input-normal form-control" [id]="idx" [(ngModel)]="sentences[idx].data">
-        <span class="input-group-addon span-clickable" [id]="idx" (click)="deleteSentence($event)">X</span>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-1 col-sm-1 col-xs-1"></div>
+</div>
+<div class="col-md-10 col-sm-8 col-xs-8">
+  <app-intent [intentId]="intentId" (updated)="onUpdate($event)"></app-intent>
 </div>

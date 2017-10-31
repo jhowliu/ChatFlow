@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { IntentService } from '../../services/intent.service';
-import { FormBuilder } from '@angular/forms';
 
 import { PlatformLocation } from '@angular/common';
 
@@ -8,9 +7,6 @@ interface Intent {
   id: String,
   name: String,
   sentences: String[]
-}
-interface Sentence {
-  data: String
 }
 
 @Component({
@@ -20,12 +16,8 @@ interface Sentence {
 })
 
 export class ConsoleComponent implements OnInit {
-  private sentence: String;
-  private sentences: Sentence[];
-  private intent: Intent;
+  intentId: String;
   private intents: Intent[];
-
-  private saved: Boolean;
 
   constructor(
     private intentService: IntentService,
@@ -33,68 +25,56 @@ export class ConsoleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.saved = true;
-    this.intentService.getIntents().subscribe((res) => {
-      if (res.success && res.data.length) {
-        const data = res.data[0];
-        this.intents = [data];
-        console.log(this.intents);
-        this.intent = {
-          id: data._id,
-          name: data.name,
-          sentences: data.sentences,
-        };
-        this.buildSentences(data.sentences);
-      } else {
-        this.intent = undefined;
+    this.intentService.getIntents().subscribe((data) => {
+      if (data.success && data.data.length) {
+        this.intents = data.data;
+        this.intentId = data.data[0]._id;
       }
     })
-
     this.location.onPopState(() => {
       console.log("HII");
     })
   }
 
-  onChange() {
-    this.saved = false;
+  onUpdate(e) {
+    if (e) { this.updateIntents(); }
   }
 
-  addSentence() {
-    if (this.sentence != null) {
-      const data: Sentence = { data: this.sentence };
-      this.sentences.push(data);
-      this.sentence = null;
+  onIntentClick(id) {
+    this.intentId = id;
+  }
+
+  onAddIntent() {
+    let newIntent = {
+      name: "請輸入意圖名稱",
+      sentences: [],
     }
+    this.intentService.addIntent(newIntent).subscribe(data => {
+      if (data.success) {
+        this.intents.push(data.data);
+        this.intentId = data.data._id;
+      }
+    })
   }
 
-  deleteSentence(e) {
-    const index = e.target.id;
-    this.sentences.splice(index, 1);
-    console.log(this.sentences);
+  onDelIntent(id) {
+    console.log(id);
+    this.intentService.deleteIntent(id).subscribe((data) => {
+        if (data.success) {
+          console.log(data);
+          this.updateIntents();
+          this.intentId = undefined;
+        }
+    })
   }
 
-  onSaveClicked() {
-    const intent = this.buildIntent();
-    this.intentService.updateIntent(intent).subscribe((res) => {
-      this.saved = true;
-      console.log(res);
-    });
-  }
-
-  private buildSentences(sentences) {
-    let arr = []
-    for (let sentence of sentences) {
-      arr.push({data: sentence});
-    }
-    this.sentences = arr;
-  }
-
-  private buildIntent() {
-    let arr = [];
-    for (let sentence of this.sentences) {
-      arr.push(sentence.data);
-    }
-    this.intent.sentences = arr;
-    return this.intent;
+  private updateIntents() {
+    this.intentService.getIntents().subscribe((data) => {
+      if (data.success && data.data.length) {
+        this.intents = data.data;
+      } else {
+        this.intents = undefined;
+      }
+    })
   }
 }

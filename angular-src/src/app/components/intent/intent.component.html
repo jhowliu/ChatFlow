@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="intent">
+    <div class="col-md-2 col-sm-2 col-xs-2">
+      <h1>
+        <input type="text" class=" intent-name" (ngModelChange)="onDataChanged()" [(ngModel)]="intent.name">
+      </h1>
+    </div>
+    <div class="col-md-8 col-sm-10 col-xs-10">
+        <button class="save btn btn-default" [disabled]="saved" (click)="onSaveClicked()">SAVE</button>
+    </div>
+  </div>
+  <hr *ngIf="intent">
+  <div class="row">
+    <div class="col-md-10 col-sm-12 col-xs-12 main" *ngIf="intent">
+      <form>
+        <div class="form-group">
+          <input type="text" class="input-normal form-control" name="sentence" [(ngModel)]="sentence" (ngModelChange)="onDataChanged()" placeholder="例句" (keyup.enter)="addSentence()">
+        </div>
+      </form>
+      <br>
+      <div class="list-of-examples">
+        <div *ngFor="let sentence of sentences; let idx = index" class="input-group">
+          <input type="text" class="input-normal form-control" [id]="idx" (ngModelChange)="onDataChanged()" [(ngModel)]="sentences[idx].data">
+          <span class="input-group-addon clickable" [id]="idx" (click)="deleteSentence($event)">X</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

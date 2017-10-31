@@ -7,6 +7,18 @@ const Intent = require('../models/intent');
 
 const router = express.Router();
 
+router.get('/:id', (req, res, next) => {
+    const id = req.params.id;
+
+    Intent.findIntentById(id, function(err, intent) {
+        if (err) {
+            res.json({ success: false, msg: 'Failed to read from database'});
+        } else {
+            res.json({ success: true, data: intent, msg: 'find successfully' });
+        }
+    });
+});
+
 router.get('/', (req, res, next) => {
     const userid = req.body.userid || req.query.userid;
 
@@ -30,7 +42,7 @@ router.post('/', (req, res, next) => {
         if (err) {
             res.json({ success: false, msg: 'Failed to add intent' });
         } else {
-            res.json({ success: true, msg: 'Intent added', intent: intent });
+            res.json({ success: true, msg: 'Intent added', data: intent });
         }
     });
 })
@@ -47,12 +59,13 @@ router.put('/', (req, res, next) => {
         if (err) {
             res.json({ success: false, msg: 'Failed to update intent' });
         } else {
-            res.json({ success: true, msg: 'Intent updated', intent: updatedIntent });
+            res.json({ success: true, msg: 'Intent updated', data: updatedIntent });
         }
     });
 });
 
 router.delete('/', (req, res, next) => {
+    console.log(req.body);
     const intentId = req.body.id
 
     Intent.removeIntent(intentId, (err) => {

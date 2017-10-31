@@ -21,6 +21,7 @@ import { AuthService } from './services/auth.service';
 import { IntentService } from './services/intent.service';
 import { ValidateService } from './services/validate.service';
 import { AuthGuard } from './guards/auth.guard';
+import { IntentComponent } from './components/intent/intent.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,7 +29,7 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'console', component: ConsoleComponent, canActivate: [AuthGuard] }
+  { path: 'console', component: ConsoleComponent, canActivate: [AuthGuard] },
 ]
 
 @NgModule({
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
-    ConsoleComponent
+    ConsoleComponent,
+    IntentComponent
   ],
   imports: [
     BrowserModule,

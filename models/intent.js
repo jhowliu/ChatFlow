@@ -20,7 +20,12 @@ const IntentSchema = mongoose.Schema({
 const Intent = module.exports = mongoose.model('Intent', IntentSchema);
 
 
-// READ
+// return an intent using intent id
+module.exports.findIntentById = function(id, callback) {
+    Intent.findById(id, callback);
+}
+
+// READ return intent list
 module.exports.findIntentsByUser = function(userid, callback) {
     const query = { userid: userid };
     Intent.find(query, callback);
