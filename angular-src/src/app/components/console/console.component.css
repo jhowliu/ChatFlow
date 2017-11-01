@@ -10,7 +10,12 @@
   font-size: 15px;
 }
 
+.selected {
+  background: lightgrey;
+}
+
 .intents-list {
+  margin-top: 5px;
   min-height: 15px;
   padding: 10px 0px 10px 20px;
 }

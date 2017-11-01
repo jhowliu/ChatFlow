@@ -37,7 +37,9 @@ export class ConsoleComponent implements OnInit {
   }
 
   onUpdate(e) {
-    if (e) { this.updateIntents(); }
+    if (e) {
+      this.updateIntents();
+    }
   }
 
   onIntentClick(id) {

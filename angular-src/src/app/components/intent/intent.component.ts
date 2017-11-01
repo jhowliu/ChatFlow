@@ -46,6 +46,8 @@ export class IntentComponent implements OnChanges {
           this.buildSentences(intent.sentences);
         }
       });
+    } else {
+      this.intent = undefined;
     }
   }
 

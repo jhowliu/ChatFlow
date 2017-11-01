@@ -4,13 +4,26 @@ const jwt = require('jsonwebtoken');
 
 const config = require('../config/database');
 const Intent = require('../models/intent');
+const Entity = require('../models/entity');
 
 const router = express.Router();
+
+router.get('/:id/entities', (req, res, next) => {
+    const intentId = req.params.id;
+
+    Entity.findEntityByIntent(intentId, (err, entities) => {
+        if (err) {
+            res.json({ success: false, msg: 'Failed to find entities by intentId.'});
+        } else {
+          res.json({ success: true, msg: 'Find successfully', data: entities });
+        }
+    })
+});
 
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
 
-    Intent.findIntentById(id, function(err, intent) {
+    Intent.findIntentById(id, (err, intent) => {
         if (err) {
             res.json({ success: false, msg: 'Failed to read from database'});
         } else {
@@ -48,7 +61,7 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/', (req, res, next) => {
-    const name = req.body.name
+    const name = req.body.name;
     const intentId = req.body.id;
     const sentences = req.body.sentences;
 
@@ -66,7 +79,7 @@ router.put('/', (req, res, next) => {
 
 router.delete('/', (req, res, next) => {
     console.log(req.body);
-    const intentId = req.body.id
+    const intentId = req.body.id;
 
     Intent.removeIntent(intentId, (err) => {
         if (err) {

@@ -17,7 +17,7 @@
           </div>
         </div>
       </li>
-      <li class="intents-list clickable" (click)="onIntentClick(intent._id)" *ngFor="let intent of intents">
+      <li class="intents-list clickable" (click)="onIntentClick(intent._id)" [ngClass]="{'selected': intentId==intent._id}"  *ngFor="let intent of intents">
         <span (click)="onIntentClick(intent._id)">{{intent.name}}<span class="del-intent clickable glyphicon glyphicon-trash" (click)="onDelIntent(intent._id)"></span></span>
       </li>
     </ul>
