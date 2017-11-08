@@ -1,20 +1,20 @@
 const mongoose = require('mongoose');
-const config = require('../config/database');
 const Intent = require('./intent');
+const User = require('./user');
 
 const EntitySchema = mongoose.Schema({
     name: {
       type: String,
       require: true
     },
+    intentId: {
+      type: mongoose.Schema.ObjectId,
+      require: true
+    },
     sentences: {
       type: [String],
       default: []
     },
-    _intentId: {
-      type: ObjectId,
-      ref: Intent
-    }
 })
 
 const Entity = module.exports = mongoose.model('Entity', EntitySchema);
@@ -28,8 +28,14 @@ module.exports.findEntityByIntent = function(intentId, callback) {
     Entity.find(query, callback);
 }
 
-module.exports.addEntity = function(newEntity, callback) {
-    newEntity.save(callback);
+module.exports.addEntity = (newEntity, callback) => {
+    newEntity.save( (err, entity) => {
+        if (err) throw err;
+        Intent.findIntentById(entity.intentId, (err, intent) => {
+            intent.entities.push(entity._id);
+            intent.save(callback);
+        });
+    });
 }
 
 module.exports.updateEntity = function(id, updatedEntity, callback) {
@@ -40,6 +46,6 @@ module.exports.updateEntity = function(id, updatedEntity, callback) {
     })
 }
 
-module.exports.removeEntity = function(id, callback) {
-    entity.remove({ _id: id}, callback);
+module.exports.removeEntity = (id, callback) => {
+    Entity.remove({ _id: id}, callback);
 }

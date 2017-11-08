@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('../config/database');
 const User = require('./user');
-const Entity = require('./entity');
 
 const IntentSchema = mongoose.Schema({
     name: {
@@ -12,10 +10,10 @@ const IntentSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    entities: [{
-        type: ObjectId,
-        ref: Entity // population
-    }],
+    entities: {
+        type: [mongoose.Schema.ObjectId],
+        default: [],   
+    },
     sentences: {
         type: [String],
         default: []

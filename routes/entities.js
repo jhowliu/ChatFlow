@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
     const newEntity = new Entity({
         name: req.body.name,
         sentences: req.body.sentences,
-        _intentId: req.body.intentId,
+        intentId: req.body.intentId,
     });
 
     Entity.addEntity(newEntity, (err, entity) => {
@@ -35,7 +35,6 @@ router.post('/', (req, res, next) => {
 })
 
 router.delete('/', (req, res, next) => {
-    console.log(req.body);
     const entityId = req.body.id;
 
     Entity.removeEntity(entityId, (err) => {

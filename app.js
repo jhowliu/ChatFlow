@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 const users = require('./routes/users');
 const intents = require('./routes/intents');
+const entities = require('./routes/entities');
 
 const config = require('./config/database');
 
@@ -35,7 +36,8 @@ app.set('port', 4567);
 app.use(cors());
 
 // Body Parser Midderware
-app.use(bodyParser.json());
+app.use(bodyParser.json({ type: '*/*' }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Passport Middleware
 app.use(passport.initialize());
@@ -46,6 +48,7 @@ require('./config/passport')(passport);
 // use the path which is users, will direct to users.js
 app.use('/users', users);
 app.use('/intents', intents);
+app.use('/entities', entities);
 
 app.get('/', (req, res) => {
     res.send('Invaild Endpoint');
