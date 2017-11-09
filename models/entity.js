@@ -47,5 +47,17 @@ module.exports.updateEntity = function(id, updatedEntity, callback) {
 }
 
 module.exports.removeEntity = (id, callback) => {
-    Entity.remove({ _id: id}, callback);
+    Intent.findIntentByEntityId(id).then( (intent) => {
+        const target = intent.entities.indexOf(id);
+        // Remove the entity from intent.entities
+        intent.entities.splice(target, 1);
+        intent.save((err, intent) => {
+            // remove entity from collection
+            Entity.remove({ _id: id}, (err) => {
+                callback(err, intent);
+            });
+        });
+    }).catch( (err) => {
+        callback(err);
+    });
 }

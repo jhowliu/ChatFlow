@@ -10,7 +10,7 @@ router.get('/:id', (req, res, next) => {
 
     Entity.findEntityById(id, (err, entity) => {
         if (err) {
-            res.json({ success: false, msg: 'Failed to read from database.'});
+            res.json({ success: false, msg: 'Failed to read from database.', err: err.toString()});
         } else {
             res.json({ success: true, msg: 'Read successfully', data: entity });
         }
@@ -26,7 +26,7 @@ router.post('/', (req, res, next) => {
 
     Entity.addEntity(newEntity, (err, entity) => {
         if (err) {
-          res.json({ success:false, msg: 'Failed to add entity.' })
+          res.json({ success:false, msg: 'Failed to add entity.', err: err.toString() })
         } else {
           res.json({ success:true, msg: 'Entity added.', data: entity })
           console.log(entity);
@@ -36,12 +36,11 @@ router.post('/', (req, res, next) => {
 
 router.delete('/', (req, res, next) => {
     const entityId = req.body.id;
-
-    Entity.removeEntity(entityId, (err) => {
+    Entity.removeEntity(entityId, (err, intent) => {
         if (err) {
-            res.json({ success: false, msg: 'Failed to remove intent' });
+            res.json({ success: false, msg: 'Failed to remove intent', err: err.toString() });
         } else {
-            res.json({ success: true, msg: 'Intent removed' });
+            res.json({ success: true, msg: 'Intent removed', data: intent });
         }
     });
 });
@@ -56,7 +55,7 @@ router.put('/', (req, res, next) => {
         sentences: sentences
     }, (err, updatedEntity) => {
         if (err) {
-            res.json({ success: false, msg: 'Failed to update entity.' });
+            res.json({ success: false, msg: 'Failed to update entity.', err: err.toString()});
         } else {
             res.json({ success: true, msg: 'Entity updated', data: updatedEntity });
         }

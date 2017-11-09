@@ -13,7 +13,7 @@ router.get('/:id/entities', (req, res, next) => {
 
     Entity.findEntityByIntent(intentId, (err, entities) => {
         if (err) {
-            res.json({ success: false, msg: 'Failed to find entities by intentId.'});
+            res.json({ success: false, msg: 'Failed to find entities by intentId.', err: err.toString() });
         } else {
           res.json({ success: true, msg: 'Find successfully', data: entities });
         }
@@ -25,8 +25,9 @@ router.get('/:id', (req, res, next) => {
 
     Intent.findIntentById(id, (err, intent) => {
         if (err) {
-            res.json({ success: false, msg: 'Failed to read from database'});
+            res.json({ success: false, msg: 'Failed to read from database', err: err.toString()});
         } else {
+            console.log(intent);
             res.json({ success: true, data: intent, msg: 'find successfully' });
         }
     });
@@ -37,7 +38,7 @@ router.get('/', (req, res, next) => {
 
     Intent.findIntentsByUser(userid, function(err, intents) {
         if (err) {
-            res.json({ success: false, msg: 'Failed to read from database'});
+            res.json({ success: false, msg: 'Failed to read from database', err: err.toString()});
         } else {
             res.json({ success: true, data: intents, msg: 'find successfully' });
         }
@@ -53,7 +54,7 @@ router.post('/', (req, res, next) => {
 
     Intent.addIntent(newIntent, (err, intent) => {
         if (err) {
-            res.json({ success: false, msg: 'Failed to add intent' });
+            res.json({ success: false, msg: 'Failed to add intent', err: err.toString()});
         } else {
             res.json({ success: true, msg: 'Intent added', data: intent });
         }
@@ -70,7 +71,7 @@ router.put('/', (req, res, next) => {
         sentences: sentences
     }, (err, updatedIntent) => {
         if (err) {
-            res.json({ success: false, msg: 'Failed to update intent' });
+            res.json({ success: false, msg: 'Failed to update intent', err: err.toString() });
         } else {
             res.json({ success: true, msg: 'Intent updated', data: updatedIntent });
         }
@@ -83,7 +84,7 @@ router.delete('/', (req, res, next) => {
 
     Intent.removeIntent(intentId, (err) => {
         if (err) {
-            res.json({ success: false, msg: 'Failed to remove intent' });
+            res.json({ success: false, msg: 'Failed to remove intent', err: err.toString() });
         } else {
             res.json({ success: true, msg: 'Intent removed' });
         }

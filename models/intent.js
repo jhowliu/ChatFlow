@@ -12,7 +12,7 @@ const IntentSchema = mongoose.Schema({
     },
     entities: {
         type: [mongoose.Schema.ObjectId],
-        default: [],   
+        default: [],
     },
     sentences: {
         type: [String],
@@ -30,8 +30,18 @@ module.exports.findIntentById = function(id, callback) {
 
 // READ return intent list
 module.exports.findIntentsByUser = function(userid, callback) {
-    const query = { userid: userid };
-    Intent.find(query, callback);
+    const qs = { userid: userid };
+    Intent.find(qs, callback);
+}
+
+module.exports.findIntentByEntityId = (entityId) => {
+    const qs = { 'entities': { '$in': [entityId] } };
+    return new Promise( (resolve, reject) => {
+        Intent.findOne(qs, (err, intent) => {
+            if (err) { reject(err); }
+            resolve(intent);
+        });
+    });
 }
 
 // CREATE
