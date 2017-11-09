@@ -36,7 +36,7 @@ app.set('port', 4567);
 app.use(cors());
 
 // Body Parser Midderware
-app.use(bodyParser.json({ type: '*/*' }));
+app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Passport Middleware
