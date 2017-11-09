@@ -7,7 +7,7 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-// Register 
+// Register
 router.post('/register', (req, res, next) => {
     console.log(req.body);
     let newUser = new User({
@@ -33,19 +33,13 @@ router.post('/authenticate', (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    User.getUserByUsername(username, (err, user) => {
-        if (err) throw err;
-
-        if (!user) {
-            return res.json({ success: false, msg: 'User not found' });
-        }
-
+    User.getUserByUsername(username).then( (user) => {
         User.comparePassword(password, user.password, (err, isMatch) => {
             if (err) throw err;
 
             if (isMatch) {
                 // Need to convert user doc into plain object.
-                const token = jwt.sign(user.toObject(), config.secret, { 
+                const token = jwt.sign(user.toObject(), config.secret, {
                     expiresIn: '1h' // 1 week
                 });
 
@@ -64,6 +58,8 @@ router.post('/authenticate', (req, res, next) => {
                 return res.json({ success: false, msg: 'Wrong password' });
             }
         });
+    }).catch( (err) => {
+        return res.json({ success: false, msg: 'authenticate error.', err: err.toString() });
     });
 });
 

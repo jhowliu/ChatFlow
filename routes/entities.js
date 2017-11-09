@@ -20,7 +20,6 @@ router.post('/', (req, res) => {
         sentences: req.body.sentences,
         intentId: req.body.intentId,
     });
-
     Entity.addEntity(newEntity).then( (entity) => {
         res.json({ success:true, msg: 'Entity added.', data: entity })
     }).catch( (err) => {

@@ -33,7 +33,7 @@ module.exports.findEntityById = (id) => {
 module.exports.findEntityByIntentId = (intentId) => {
     const qs = { intentId: intentId };
     return new Promise( (resolve, reject) => {
-        Entity.findOne(qs, (err, intent) => {
+        Entity.find(qs, (err, intent) => {
             if (err) { reject(err); }
             resolve(intent);
         })
@@ -47,12 +47,14 @@ module.exports.addEntity = (newEntity) => {
         newEntity.save( (err, entity) => {
             if (err) { reject(err); }
             // add entity_id in intent
-            Intent.findIntentById(entity.intentId, (err, intent) => {
+            Intent.findIntentById(entity.intentId).then( (intent) => {
                 intent.entities.push(entity._id);
                 intent.save( (err, intent) => {
                     if (err) { reject(err); }
                     resolve(intent);
-                })
+                });
+            }).catch( (err) => {
+                reject(err);
             })
         });
     });

@@ -24,14 +24,24 @@ const Intent = module.exports = mongoose.model('Intent', IntentSchema);
 
 
 // return an intent using intent id
-module.exports.findIntentById = function(id, callback) {
-    Intent.findById(id, callback);
+module.exports.findIntentById = (id) => {
+    return new Promise( (resolve, reject) => {
+        Intent.findById(id, (err, intent) => {
+            if (err) { reject(err); }
+            resolve(intent);
+        });
+    });
 }
 
 // READ return intent list
 module.exports.findIntentsByUser = function(userid, callback) {
     const qs = { userid: userid };
-    Intent.find(qs, callback);
+    return new Promise( (resolve, reject) => {
+        Intent.find(qs, (err, intent) => {
+            if (err) { reject(err); }
+            resolve(intent);
+        });
+    });
 }
 
 module.exports.findIntentByEntityId = (entityId) => {
@@ -45,29 +55,42 @@ module.exports.findIntentByEntityId = (entityId) => {
 }
 
 // CREATE
-module.exports.addIntent = function(newIntent, callback) {
+module.exports.addIntent = (newIntent) => {
     const userid = newIntent.userid;
-    User.getUserById(userid, (err, user) => {
-        if (user) {
-            newIntent.save(callback);
-        } else {
-            console.log('user not found');
-            callback(true, 'user not found');
-        }
+    return new Promise( (resolve, reject) => {
+        User.getUserById(userid).then( (user) => {
+            newIntent.save( (err, intent) => {
+                if (err) { reject(err); }
+                resolve(intent);
+            });
+        }).catch( (err) => {
+          reject(err);
+        });
     });
 }
 
 // UPDATE
 // id: intent id
-module.exports.updateIntent = function(id, updatedIntent, callback) {
-    Intent.findById(id, (err, intent) => {
-        intent.name = updatedIntent.name;
-        intent.sentences = updatedIntent.sentences;
-        intent.save(callback);
-    })
+module.exports.updateIntent = (id, updatedIntent) => {
+    return new Promise( (resolve, reject) => {
+        Intent.findById(id, (err, intent) => {
+            if (err) { reject(err); }
+            intent.name = updatedIntent.name;
+            intent.sentences = updatedIntent.sentences;
+            intent.save( (err, intent) => {
+                if (err) { reject(err); }
+                resolve(intent);
+            });
+        });
+    });
 }
 
 // DELETE
-module.exports.removeIntent = function(id, callback) {
-    Intent.remove({ _id: id }, callback);
+module.exports.removeIntent = (id) => {
+    return new Promise( (resolve, reject) => {
+        Intent.remove({ _id: id }, (err) => {
+            if (err) { reject(err); }
+            resolve(true);
+        });
+    });
 }

@@ -24,13 +24,31 @@ const UserSchema = mongoose.Schema({
 const User = module.exports = mongoose.model('User', UserSchema);
 
 
-module.exports.getUserById = function(id, callback) {
-    User.findById(id, callback);
+module.exports.getUserById = (id) => {
+  return new Promise( (resolve, reject) => {
+      User.findById(id, (err, user) => {
+          if (err) { reject(err); }
+          if (user) {
+            resolve(user);
+          } else {
+            reject('user not found.');
+          }
+      });
+  })
 }
 
-module.exports.getUserByUsername = function(username, callback) {
-    const query = { username: username };
-    User.findOne(query, callback);
+module.exports.getUserByUsername = (username) => {
+    const qs = { username: username };
+    return new Promise( (resolve, reject) => {
+        User.findOne(qs, (err, user) => {
+            if (err) { reject(err); }
+            if (user) {
+                resolve(user);
+            } else {
+                reject('user not found.');
+            }
+        });
+    });
 }
 
 // Add User
