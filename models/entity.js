@@ -33,9 +33,9 @@ module.exports.findEntityById = (id) => {
 module.exports.findEntityByIntentId = (intentId) => {
     const qs = { intentId: intentId };
     return new Promise( (resolve, reject) => {
-        Entity.find(qs, (err, intent) => {
+        Entity.find(qs, (err, entities) => {
             if (err) { reject(err); }
-            resolve(intent);
+            resolve(entities);
         })
     });
 }

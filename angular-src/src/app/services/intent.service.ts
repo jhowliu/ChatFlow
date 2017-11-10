@@ -12,28 +12,7 @@ export class IntentService {
     private http: Http,
   ) { }
 
-  addIntent(intent) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const headers = this.buildHeaders();
-
-    return this.http.post(apis.intents.uri, {
-        userid: user.id,
-        name: intent.name,
-        sentences: intent.sentences,
-      }, { headers: headers })
-      .map(res => res.json());
-  }
-
-  deleteIntent(id) {
-    let headers = this.buildHeaders();
-
-    return this.http.delete(apis.intents.uri, {
-      body: { id: id },
-      headers: headers,
-    })
-    .map(res => res.json());
-  }
-
+  // READ
   getIntentById(id) {
     const headers = this.buildHeaders();
     const uri = apis.intents.uri+'/'+id;
@@ -54,15 +33,37 @@ export class IntentService {
       })
       .map(res => res.json());
   }
+  // CREATE
+  addIntent(intent) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const headers = this.buildHeaders();
 
+    return this.http.post(apis.intents.uri, {
+        userid: user.id,
+        name: intent.name,
+        sentences: intent.sentences,
+      }, { headers: headers })
+      .map(res => res.json());
+  }
+  // DELETE
+  deleteIntent(id) {
+    let headers = this.buildHeaders();
+
+    return this.http.delete(apis.intents.uri, {
+        body: { id: id },
+        headers: headers,
+      })
+      .map(res => res.json());
+  }
+  // UPDATE
   updateIntent(intent) {
     const user = JSON.parse(localStorage.getItem('user'));
     const headers = this.buildHeaders();
 
     return this.http.put(apis.intents.uri, {
-          id: intent.id,
-          name: intent.name,
-          sentences: intent.sentences
+        id: intent.id,
+        name: intent.name,
+        sentences: intent.sentences
       }, { headers: headers })
       .map(res => res.json());
   }

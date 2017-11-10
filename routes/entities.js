@@ -14,6 +14,15 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.get('/', (req, res) => {
+    const intentId = req.query.id || req.query.intentId;
+    Entity.findEntityByIntentId(intentId).then( (entities) => {
+        res.json({ success: true, msg: 'Find successfully', data: entiies });
+    }).catch( (err) => {
+        res.json({ success: false, msg: 'Failed to read from database.', err: err.toString() });
+    });
+});
+
 router.post('/', (req, res) => {
     const newEntity = new Entity({
         name: req.body.name,
