@@ -17,12 +17,12 @@
           </div>
         </div>
       </li>
-      <li class="intents-list clickable" (click)="onIntentClick(intent._id)" [ngClass]="{'selected': intentId==intent._id}"  *ngFor="let intent of intents">
-        <span (click)="onIntentClick(intent._id)">{{intent.name}}<span class="del-intent clickable glyphicon glyphicon-trash" (click)="onDelIntent(intent._id)"></span></span>
+      <li class="intents-list clickable" (click)="onClicked(intent._id)" [routerLink]="['./intent', intent._id]" [ngClass]="{'selected': intentId==intent._id}"  *ngFor="let intent of intents">
+        <span>{{intent.name}}<span class="del-intent clickable glyphicon glyphicon-trash" (click)="onDelIntent(intent._id)"></span></span>
       </li>
     </ul>
   </div>
 </div>
 <div class="col-md-10 col-sm-8 col-xs-8">
-  <app-intent [intentId]="intentId" (updated)="onUpdate($event)"></app-intent>
+  <router-outlet></router-outlet>
 </div>

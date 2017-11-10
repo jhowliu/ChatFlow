@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IntentService } from '../../services/intent.service';
 
-import { PlatformLocation } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface Intent {
   id: String,
@@ -21,18 +21,16 @@ export class ConsoleComponent implements OnInit {
 
   constructor(
     private intentService: IntentService,
-    private location: PlatformLocation,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    this.intentService.getIntents().subscribe((data) => {
+    this.intentService.getIntents().subscribe( (data) => {
       if (data.success && data.data.length) {
         this.intents = data.data;
         this.intentId = data.data[0]._id;
       }
-    })
-    this.location.onPopState(() => {
-      console.log("HII");
     })
   }
 
@@ -42,8 +40,11 @@ export class ConsoleComponent implements OnInit {
     }
   }
 
-  onIntentClick(id) {
+  onClicked(id) {
     this.intentId = id;
+    /*  replace by routerLink
+    this.router.navigate(['intent', id], {relativeTo: this.route});
+    */
   }
 
   onAddIntent() {

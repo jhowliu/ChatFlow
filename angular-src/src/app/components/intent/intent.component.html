@@ -1,4 +1,6 @@
 <div class="container-fluid">
+  {{this.intentId}}
+  <app-entity [intentId]="intentId" ></app-entity>
   <div class="row" *ngIf="intent">
     <div class="col-md-2 col-sm-2 col-xs-2">
       <h1>

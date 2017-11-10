@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { apis } from '../config/apis'
@@ -13,13 +13,13 @@ export class EntityService {
   ) { }
 
   // READ
-  getEntitiesByIntentId(intendId) {
+  getEntitiesByIntentId(intentId) {
     let headers = this.buildHeaders();
     let params = this.buildParams();
 
     params.set('intentId', intentId)
 
-    return this.http.get(apis.entities.api, {
+    return this.http.get(apis.entities.uri, {
         search: params,
         headers: headers,
       })

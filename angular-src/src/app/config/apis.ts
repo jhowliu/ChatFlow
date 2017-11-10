@@ -14,5 +14,9 @@ export const apis = {
   intents: {
     uri: 'http://localhost:4567/intents',
     path: 'intents',
+  },
+  entities: {
+    uri: 'http://localhost:4567/entities',
+    path: 'entities'
   }
 };

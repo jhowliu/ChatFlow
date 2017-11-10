@@ -1,3 +1,16 @@
-<p>
-  entity works! {{id}}
-</p>
+entity works! {{this.intentId}}
+<div *ngIf="intentId">
+  <ul>
+    <li *ngFor="let entity of entities; let eid = index">
+      <h2>{{entity.name}}</h2>
+      <input [id]="eid" type="text" class="input-normal form-control" placeholder="例句" (keyup.enter)="addSentence($event)">
+      <br>
+      <div class="list-of-example">
+        <div [id]="eid "*ngFor="let sentence of entity.sentences; let sid = index" class="input-group">
+          <input type="text" class="input-normal form-control" (ngModelChange)="onDataChanged()" [(ngModel)]="sentence.data">
+          <span class="input-group-addon clickable" [id]="sid" (click)="deleteSentence($event)">X</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

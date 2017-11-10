@@ -15,13 +15,15 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ConsoleComponent } from './components/console/console.component';
+import { IntentComponent } from './components/intent/intent.component';
+import { EntityComponent } from './components/entity/entity.component';
 
 // Services
 import { AuthService } from './services/auth.service';
 import { IntentService } from './services/intent.service';
 import { ValidateService } from './services/validate.service';
+import { EntityService } from './services/entity.service';
 import { AuthGuard } from './guards/auth.guard';
-import { IntentComponent } from './components/intent/intent.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -29,7 +31,11 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'console', component: ConsoleComponent, canActivate: [AuthGuard] },
+  { path: 'console', component: ConsoleComponent, canActivate: [AuthGuard],
+    children: [
+      { path: 'intent/:id', component: IntentComponent }
+    ]
+  },
 ]
 
 @NgModule({
@@ -42,7 +48,8 @@ const appRoutes: Routes = [
     DashboardComponent,
     ProfileComponent,
     ConsoleComponent,
-    IntentComponent
+    IntentComponent,
+    EntityComponent
   ],
   imports: [
     BrowserModule,
@@ -55,8 +62,9 @@ const appRoutes: Routes = [
     ValidateService,
     AuthService,
     IntentService,
+    EntityService,
     AuthGuard,
-    FormBuilder
+    FormBuilder,
   ],
   bootstrap: [AppComponent]
 })

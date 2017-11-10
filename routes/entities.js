@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
 router.get('/', (req, res) => {
     const intentId = req.query.id || req.query.intentId;
     Entity.findEntityByIntentId(intentId).then( (entities) => {
-        res.json({ success: true, msg: 'Find successfully', data: entiies });
+        res.json({ success: true, msg: 'Find successfully', data: entities });
     }).catch( (err) => {
         res.json({ success: false, msg: 'Failed to read from database.', err: err.toString() });
     });
